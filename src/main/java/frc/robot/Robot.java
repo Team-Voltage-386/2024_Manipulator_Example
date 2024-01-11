@@ -42,12 +42,11 @@ public class Robot extends TimedRobot {
 
     private void configureBindings() {
         System.out.println("CONFIGURED");
+        ControllerConstants.manipulatorController.y().and(m_Pneumatics::coneClosed).onTrue(m_Pneumatics.openConeCommand());
         ControllerConstants.manipulatorController.y().and(new Trigger(m_Pneumatics::coneClosed).negate()).onTrue(m_Pneumatics.closeConeCommand());
-        ControllerConstants.manipulatorController.y().and(new Trigger(m_Pneumatics::coneClosed)).onTrue(m_Pneumatics.openConeCommand());
 
-        Trigger xAndCubeClosed = ControllerConstants.manipulatorController.x().and(m_Pneumatics::cubeClosed);
-        xAndCubeClosed.onTrue(m_Pneumatics.openCubeCommand());
-        xAndCubeClosed.onFalse(m_Pneumatics.closeCubeCommand());
+        ControllerConstants.manipulatorController.x().and(m_Pneumatics::cubeClosed).onTrue(m_Pneumatics.openCubeCommand());
+        ControllerConstants.manipulatorController.x().and(new Trigger(m_Pneumatics::cubeClosed).negate()).onTrue(m_Pneumatics.closeCubeCommand());
 
         ControllerConstants.manipulatorController.rightTrigger(0.02).and(new Trigger(m_Pneumatics::liftOut).negate()).onTrue(m_Pneumatics.openLiftCommand());
         ControllerConstants.manipulatorController.rightTrigger(0.02).negate().and(m_Pneumatics::liftOut).onTrue(m_Pneumatics.closeLiftCommand());
