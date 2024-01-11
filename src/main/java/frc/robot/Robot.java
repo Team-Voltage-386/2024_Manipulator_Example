@@ -2,6 +2,7 @@ package frc.robot;
 
 import Subsytems.Pneumatics;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.ControllerConstants;
@@ -11,12 +12,12 @@ public class Robot extends TimedRobot {
 
     @Override
     public void robotInit() {
-        this.configureBindings();
+        
     }
 
     @Override
     public void teleopInit() {
-
+        this.configureBindings();
     }
 
     @Override
@@ -40,9 +41,9 @@ public class Robot extends TimedRobot {
     }
 
     private void configureBindings() {
-        Trigger yAndConeClosed = ControllerConstants.manipulatorController.y().and(m_Pneumatics::coneClosed);
-        yAndConeClosed.onTrue(m_Pneumatics.openConeCommand());
-        yAndConeClosed.onFalse(m_Pneumatics.closeConeCommand());
+        System.out.println("CONFIGURED");
+        ControllerConstants.manipulatorController.y().and(new Trigger(m_Pneumatics::coneClosed).negate()).onTrue(m_Pneumatics.closeConeCommand());
+        ControllerConstants.manipulatorController.y().and(new Trigger(m_Pneumatics::coneClosed)).onTrue(m_Pneumatics.openConeCommand());
 
         Trigger xAndCubeClosed = ControllerConstants.manipulatorController.x().and(m_Pneumatics::cubeClosed);
         xAndCubeClosed.onTrue(m_Pneumatics.openCubeCommand());

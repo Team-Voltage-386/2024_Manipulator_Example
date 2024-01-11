@@ -18,7 +18,7 @@ public class Pneumatics extends SubsystemBase {
     private DoubleSolenoid m_cone;
     private boolean m_coneClose = false;
     private boolean m_cubeClose = false;
-    private boolean m_liftOut = true;
+    private boolean m_liftOut = false;
 
     public Pneumatics() {
         this.m_lift = new DoubleSolenoid(0, PneumaticsModuleType.CTREPCM, 2, 3);
@@ -47,12 +47,12 @@ public class Pneumatics extends SubsystemBase {
 
     public void enableLift() {
         this.m_lift.set(Value.kForward);
-        this.liftOut(true);
+        this.liftOut(false);
     }
 
     public void disableLift() {
         this.m_lift.set(Value.kReverse);
-        this.liftOut(false);
+        this.liftOut(true);
     }
 
     public void enableCone() {
